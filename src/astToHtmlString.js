@@ -25,16 +25,29 @@ function parseNodeToHtml({
       return (value && value.toString()) || "";
 
     default:
-      return "";
+      throw new Error("Invalid value of 'nodeType' property.");
   }
 }
 
-function convertAstToHtmlString(astObject) {
-  const { nodeType, tagName, value, attributes, children } = astObject;
+export default function astToHtmlString({
+  nodeType,
+  tagName,
+  value,
+  attributes,
+  children,
+} = {}) {
+  if (!nodeType) {
+    throw new Error("Invalid AST object. 'nodeType' property is expected.");
+  }
+
+  if (nodeType === "element" && !tagName) {
+    throw new Error("Missing 'tagName' property.");
+  }
+
   let childHtmlString = "";
   if (children) {
     childHtmlString = children
-      .map((astObj) => convertAstToHtmlString(astObj))
+      .map((astObj) => astToHtmlString(astObj))
       .join("");
   }
 
