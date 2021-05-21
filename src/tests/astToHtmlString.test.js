@@ -14,7 +14,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(result).toBe(expectedHtmlString);
   });
 
-  test("Convert non-nested div object with attributes to HTML string.", () => {
+  test("Convert non-nested div object with attribute to HTML string.", () => {
     const astObj = {
       nodeType: "element",
       tagName: "div",
@@ -27,7 +27,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(result).toBe(expectedHtmlString);
   });
 
-  test("Convert non-nested div object with attributes and inner text to HTML string.", () => {
+  test("Convert non-nested div object with attribute and inner text to HTML string.", () => {
     const astObj = {
       nodeType: "element",
       tagName: "div",
@@ -41,7 +41,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(result).toBe(expectedHtmlString);
   });
 
-  test("Convert non-nested div object with attributes and inner text to HTML string.", () => {
+  test("Convert non-nested div object with two attributes and inner text to HTML string.", () => {
     const astObj = {
       nodeType: "element",
       tagName: "nav",
@@ -58,7 +58,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(htmlString).toBe(expectedHtmlString);
   });
 
-  test("Convert nav object with two attributes and inner text to HTML string.", () => {
+  test("Convert nav object with attribute and two children to HTML string.", () => {
     const divAstObj = {
       nodeType: "element",
       tagName: "footer",
@@ -99,7 +99,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(result).toBe(expectedHtmlString);
   });
 
-  test("Convert link ast object with two arguments to html void element.", () => {
+  test("Convert link ast object with two attributes to html void element.", () => {
     const astObj = {
       nodeType: "element",
       tagName: "link",
@@ -116,7 +116,7 @@ describe("AST object to HTML parser tests.", () => {
   });
 
   test("Throw error if no object is passed.", () => {
-    expect(() => astToHtmlString({})).toThrow(Error);
+    expect(() => astToHtmlString()).toThrow(Error);
   });
 
   test("Throw error if ast object without 'nodeType' property is passed.", () => {
@@ -129,7 +129,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(() => astToHtmlString(invalidAstObject)).toThrow(Error);
   });
 
-  test("Throw error if ast object with 'nodeType' and without 'tagName' is passed.", () => {
+  test("Throw error if ast object with 'nodeType' without 'tagName' is passed.", () => {
     const invalidAstObject = {
       nodeType: "element",
       attributes: [{ name: "class", value: "test" }],
@@ -139,7 +139,7 @@ describe("AST object to HTML parser tests.", () => {
     expect(() => astToHtmlString(invalidAstObject)).toThrow(Error);
   });
 
-  test("Throw error if ast object with invalid attributes is passed.", () => {
+  test("Throw error if ast object with invalid attribute is passed.", () => {
     const invalidAstObject = {
       nodeType: "element",
       tagName: "div",
