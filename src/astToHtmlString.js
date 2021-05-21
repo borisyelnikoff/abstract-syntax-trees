@@ -1,33 +1,4 @@
-function parseAttributesToHtml(attributes) {
-  if (!attributes || !Array.isArray(attributes)) {
-    throw new Error("Invalid argument. Must be an HTML attribute object.");
-  }
-
-  return (
-    attributes
-      .map(({ name, value }) => (name && value ? ` ${name}="${value}"` : ""))
-      .join("") || ""
-  );
-}
-
-function parseNodeToHtml({
-  nodeType,
-  tagName,
-  attributesString,
-  childHtmlString,
-  value,
-}) {
-  switch (nodeType) {
-    case "element":
-      return `<${tagName}${attributesString}>${childHtmlString}</${tagName}>`;
-
-    case "text":
-      return (value && value.toString()) || "";
-
-    default:
-      throw new Error("Invalid value of 'nodeType' property.");
-  }
-}
+import htmlVoidElements from "./htmlVoidElements.js";
 
 export default function astToHtmlString({
   nodeType,
@@ -61,4 +32,43 @@ export default function astToHtmlString({
     childHtmlString,
     value,
   });
+}
+
+function parseNodeToHtml({
+  nodeType,
+  tagName,
+  attributesString,
+  childHtmlString,
+  value,
+}) {
+  switch (nodeType) {
+    case "element":
+      return parseElementToHtml({ tagName, attributesString, childHtmlString });
+
+    case "text":
+      return (value && value.toString()) || "";
+
+    default:
+      throw new Error("Invalid value of 'nodeType' property.");
+  }
+}
+
+function parseElementToHtml({ tagName, attributesString, childHtmlString }) {
+  if (htmlVoidElements.includes(tagName)) {
+    return `<${tagName}${attributesString} />`;
+  }
+
+  return `<${tagName}${attributesString}>${childHtmlString}</${tagName}>`;
+}
+
+function parseAttributesToHtml(attributes) {
+  if (!attributes || !Array.isArray(attributes)) {
+    throw new Error("Invalid argument. Must be an HTML attribute object.");
+  }
+
+  return (
+    attributes
+      .map(({ name, value }) => (name && value ? ` ${name}="${value}"` : ""))
+      .join("") || ""
+  );
 }

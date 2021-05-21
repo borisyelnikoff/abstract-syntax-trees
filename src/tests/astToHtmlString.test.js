@@ -1,5 +1,4 @@
 import astToHtmlString from "../astToHtmlString.js";
-import { readFile } from "fs/promises";
 
 describe("AST object to HTML parser tests.", () => {
   test("Convert non-nested div object with no attributes to HTML string.", () => {
@@ -83,6 +82,35 @@ describe("AST object to HTML parser tests.", () => {
       '<footer class="test"><h1 class=".headings">AST Parser</h1><p class=".italic">Lorem ipsum dolor</p></footer>';
 
     const result = astToHtmlString(divAstObj);
+
+    expect(result).toBe(expectedHtmlString);
+  });
+
+  test("Convert img ast object to html void element.", () => {
+    const astObj = {
+      nodeType: "element",
+      tagName: "img",
+      attributes: [{ name: "src", value: "https://127.0.0.1/image.png" }],
+    };
+    const expectedHtmlString = `<img src="https://127.0.0.1/image.png" />`;
+
+    const result = astToHtmlString(astObj);
+
+    expect(result).toBe(expectedHtmlString);
+  });
+
+  test("Convert link ast object with two arguments to html void element.", () => {
+    const astObj = {
+      nodeType: "element",
+      tagName: "link",
+      attributes: [
+        { name: "rel", value: "stylesheet" },
+        { name: "href", value: "styles.css" },
+      ],
+    };
+    const expectedHtmlString = `<link rel="stylesheet" href="styles.css" />`;
+
+    const result = astToHtmlString(astObj);
 
     expect(result).toBe(expectedHtmlString);
   });
