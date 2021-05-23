@@ -69,6 +69,6 @@ function parseAttributesToHtml(attributes) {
   return (
     attributes
       .map(({ name, value }) => (name && value ? ` ${name}="${value}"` : ""))
-      .join("") || ""
+      .join("")
   );
 }
